@@ -17,16 +17,16 @@ GR.ItemModel = Backbone.Model.extend({
 			}
 		}
 
-		var amountToChangeSellIn = this.get('sell_in') + this.get('dailySellInChange');
-		this.set('sell_in', amountToChangeSellIn);
-
 		var quality = this.get('quality');
-		if(quality > 0) {
-			var amountToChangeQuality = this.get('dailyQualityChange');
-			if(amountToChangeSellIn < 0){
+		var amountToChangeQuality = this.get('dailyQualityChange');
+
+		if(quality > 0 || amountToChangeQuality > 0) {
+			if(this.get('sell_in') < 0){
 				amountToChangeQuality *= 2;
 			}
 			this.set('quality', quality + amountToChangeQuality);
 		}
+
+		this.set('sell_in', this.get('sell_in') + this.get('dailySellInChange'));
 	}
 });

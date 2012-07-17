@@ -32,6 +32,15 @@ describe('GR.ItemModel', function() {
 		expect(item.get('quality')).toBe(0);
 	});
 
+	it('should increase 0 quality though', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 10, quality: 0, dailyQualityChange: 1 });
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(9);
+		expect(item.get('quality')).toBe(1);
+	});
+
 	it('should honor dailySellInChange if custom', function() {
 		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 10, quality: 10, dailySellInChange: 0 });
 
@@ -42,11 +51,11 @@ describe('GR.ItemModel', function() {
 	});
 
 	it('should decrease quality by double if past sell by date', function() {
-		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 0, quality: 20 });
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: -1, quality: 20 });
 
 		item.nextDay();
 
-		expect(item.get('sell_in')).toBe(-1);
+		expect(item.get('sell_in')).toBe(-2);
 		expect(item.get('quality')).toBe(18);
 	});
 

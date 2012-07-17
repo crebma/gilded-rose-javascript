@@ -1,8 +1,3 @@
-jasmine.Matchers.prototype.toHaveSellInAndQuality = function(expectedSellIn, expectedQuality){
-	// return this.actual.sell_in === expectedSellIn && this.actual.quality === expectedQuality;
-	return false;
-};
-
 beforeEach(function() {
   this.addMatchers({
     toHaveSellInAndQuality: function(expectedSellIn, expectedQuality){
