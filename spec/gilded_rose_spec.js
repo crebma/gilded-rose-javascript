@@ -1,7 +1,7 @@
 beforeEach(function() {
   this.addMatchers({
     toHaveSellInAndQuality: function(expectedSellIn, expectedQuality){
-		return this.actual.sell_in === expectedSellIn && this.actual.quality === expectedQuality;
+		return this.actual.get('sell_in') === expectedSellIn && this.actual.get('quality') === expectedQuality;
 	}
   });
 });

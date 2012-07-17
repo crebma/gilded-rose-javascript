@@ -1,43 +1,35 @@
-GR = {};
-
-function Item(name, sell_in, quality) {
-  this.name = name;
-  this.sell_in = sell_in;
-  this.quality = quality;
-}
-
 var items = []
 
-items.push(new Item('+5 Dexterity Vest', 10, 20));
-items.push(new Item('Aged Brie', 2, 0));
-items.push(new Item('Elixir of the Mongoose', 5, 7));
-items.push(new Item('Sulfuras, Hand of Ragnaros', 0, 80));
-items.push(new Item('Backstage passes to a TAFKAL80ETC concert', 15, 20));
-items.push(new Item('Conjured Mana Cake', 3, 6));
+items.push(new GR.ItemModel({name: '+5 Dexterity Vest', sell_in: 10, quality: 20}));
+items.push(new GR.ItemModel({name: 'Aged Brie', sell_in: 2, quality: 0}));
+items.push(new GR.ItemModel({name: 'Elixir of the Mongoose', sell_in: 5, quality: 7}));
+items.push(new GR.ItemModel({name: 'Sulfuras, Hand of Ragnaros', sell_in: 0, quality: 80}));
+items.push(new GR.ItemModel({name: 'Backstage passes to a TAFKAL80ETC concert', sell_in: 15, quality: 20}));
+items.push(new GR.ItemModel({name: 'Conjured Mana Cake', sell_in: 3, quality: 6}));
 
 function update_quality() {
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
-    var name = item.name;
+    var name = item.get('name');
 
     if (name != 'Aged Brie' && name != 'Backstage passes to a TAFKAL80ETC concert') {
-      if (item.quality > 0) {
+      if (item.get('quality') > 0) {
         if (name != 'Sulfuras, Hand of Ragnaros') {
-          item.quality -= 1
+          item.set('quality', item.get('quality') - 1);
         }
       }
     } else {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1
+      if (item.get('quality') < 50) {
+        item.set('quality', item.get('quality') + 1);
         if (name == 'Backstage passes to a TAFKAL80ETC concert') {
-          if (item.sell_in < 11) {
-            if (item.quality < 50) {
-              item.quality += 1
+          if (item.get('sell_in') < 11) {
+            if (item.get('quality') < 50) {
+              item.set('quality', item.get('quality') + 1);
             }
           }
-          if (item.sell_in < 6) {
-            if (item.quality < 50) {
-              item.quality += 1
+          if (item.get('sell_in') < 6) {
+            if (item.get('quality') < 50) {
+              item.set('quality', item.get('quality') + 1);
             }
           }
         }
@@ -45,23 +37,23 @@ function update_quality() {
     }
 
     if (name != 'Sulfuras, Hand of Ragnaros') {
-      item.sell_in = item.sell_in - 1;
+      item.set('sell_in', item.get('sell_in') - 1);
     }
     
-    if (item.sell_in < 0) {
+    if (item.get('sell_in') < 0) {
       if (name != 'Aged Brie') {
         if (name != 'Backstage passes to a TAFKAL80ETC concert') {
-          if (item.quality > 0) {
+          if (item.get('quality') > 0) {
             if (name != 'Sulfuras, Hand of Ragnaros') {
-              item.quality -= 1
+              item.set('quality', item.get('quality') - 1);
             }
           }
         } else {
-          item.quality = 0
+          item.set('quality', 0);
         }
       } else {
-        if (item.quality < 50) {
-          item.quality += 1
+        if (item.get('quality') < 50) {
+          item.set('quality', item.get('quality') + 1);
         }
       }
     }
