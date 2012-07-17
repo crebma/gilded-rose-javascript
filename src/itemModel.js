@@ -17,6 +17,8 @@ GR.ItemModel = Backbone.Model.extend({
 			}
 		}
 
+		this.set('sell_in', this.get('sell_in') + this.get('dailySellInChange'));
+
 		var quality = this.get('quality');
 		var amountToChangeQuality = this.get('dailyQualityChange');
 
@@ -24,9 +26,10 @@ GR.ItemModel = Backbone.Model.extend({
 			if(this.get('sell_in') < 0){
 				amountToChangeQuality *= 2;
 			}
-			this.set('quality', quality + amountToChangeQuality);
-		}
 
-		this.set('sell_in', this.get('sell_in') + this.get('dailySellInChange'));
+			var change = quality + amountToChangeQuality;
+			if (change < 0) {change = 0;}
+			this.set('quality', change);
+		}
 	}
 });

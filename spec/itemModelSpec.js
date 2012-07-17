@@ -32,7 +32,16 @@ describe('GR.ItemModel', function() {
 		expect(item.get('quality')).toBe(0);
 	});
 
-	it('should increase 0 quality though', function() {
+	it('should never decrease quality past 0 even on the sell by date', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 0, quality: 1 });
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(-1);
+		expect(item.get('quality')).toBe(0);
+	});
+
+	it('should increase 0 quality', function() {
 		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 10, quality: 0, dailyQualityChange: 1 });
 
 		item.nextDay();
@@ -48,6 +57,24 @@ describe('GR.ItemModel', function() {
 
 		expect(item.get('sell_in')).toBe(10);
 		expect(item.get('quality')).toBe(9);
+	});
+
+	it('should decrease quality by one if just before sell by date', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 1, quality: 20 });
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(0);
+		expect(item.get('quality')).toBe(19);
+	});
+
+	it('should decrease quality by one if at sell by date', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 0, quality: 20 });
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(-1);
+		expect(item.get('quality')).toBe(18);
 	});
 
 	it('should decrease quality by double if past sell by date', function() {
