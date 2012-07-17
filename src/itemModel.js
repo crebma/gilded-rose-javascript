@@ -8,6 +8,15 @@ GR.ItemModel = Backbone.Model.extend({
 		}
 	},
 	nextDay: function() {
+		var extras = this.get('extras');
+		if(extras){
+			for(var i = 0; i < extras.length; i++){
+				if(extras[i].predicate(this)){
+					extras[i].action(this);
+				}
+			}
+		}
+
 		var amountToChangeSellIn = this.get('sell_in') + this.get('dailySellInChange');
 		this.set('sell_in', amountToChangeSellIn);
 
