@@ -86,27 +86,46 @@ describe('GR.ItemModel', function() {
 		expect(item.get('quality')).toBe(18);
 	});
 
-	it('should allow extra funtionality on next day if provided', function() {
-		var lessThan7Predicate = function(item) { return item.get('sell_in') < 7; };
-		var lessThan7Action = function(item) { item.set('dailyQualityChange', -2); };
-		var lessThan7Extra = { predicate: lessThan7Predicate, action: lessThan7Action };
-
-		var lessThan6Predicate = function(item) { return item.get('sell_in') < 6; };
-		var lessThan6Action = function(item) { item.set('dailyQualityChange', -4); };
-		var lessThan6Extra = { predicate: lessThan6Predicate, action: lessThan6Action };
-
-		var extras = [ lessThan7Extra, lessThan6Extra ];
-
-		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 6, quality: 20, extras: extras });
+	it('should allow extra functionality 7, -2', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 7, quality: 20, extras: {7: -2}  });
 
 		item.nextDay();
 
-		expect(item.get('sell_in')).toBe(5);
+		expect(item.get('sell_in')).toBe(6);
 		expect(item.get('quality')).toBe(18);
 
 		item.nextDay();
 
-		expect(item.get('sell_in')).toBe(4);
+		expect(item.get('sell_in')).toBe(5);
+		expect(item.get('quality')).toBe(16);
+	});
+
+	it('should allow extra funtionality 6, -4', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 7, quality: 20, extras: {6: -4}  });
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(6);
+		expect(item.get('quality')).toBe(19);
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(5);
+		expect(item.get('quality')).toBe(15);
+	});
+
+
+	it('should allow extra funtionality on next day if provided', function() {
+		var item = new GR.ItemModel({ name: '+5 Dexterity Vest', sell_in: 7, quality: 20, extras: {7: -2, 6: -4}  });
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(6);
+		expect(item.get('quality')).toBe(18);
+
+		item.nextDay();
+
+		expect(item.get('sell_in')).toBe(5);
 		expect(item.get('quality')).toBe(14);
 	});
 

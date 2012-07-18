@@ -10,11 +10,15 @@ GR.ItemModel = Backbone.Model.extend({
 	nextDay: function() {
 		var extras = this.get('extras');
 		if(extras){
-			for(var i = 0; i < extras.length; i++){
-				if(extras[i].predicate(this)){
-					extras[i].action(this);
+			var self = this;
+			var sellIns = _.keys(extras);
+			var sortedSellIns = sellIns.sort().reverse();
+
+			_.each(sortedSellIns, function(sellIn){
+				if(self.get('sell_in') <= sellIn){
+					self.set('dailyQualityChange', extras[sellIn]);
 				}
-			}
+			});
 		}
 
 		this.set('sell_in', this.get('sell_in') + this.get('dailySellInChange'));
