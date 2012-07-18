@@ -12,7 +12,9 @@ GR.ItemModel = Backbone.Model.extend({
 		if(extras){
 			var self = this;
 			var sellIns = _.keys(extras);
-			var sortedSellIns = sellIns.sort().reverse();
+			var sortedSellIns = _.sortBy(sellIns, function(sellIn) {
+				return sellIn * -1;
+			});
 
 			_.each(sortedSellIns, function(sellIn){
 				if(self.get('sell_in') <= sellIn){

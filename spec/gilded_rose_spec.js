@@ -67,9 +67,13 @@ describe("Gilded Rose", function() {
 
 		it('should update correctly', function() {
 			update_quality();
+			expect(passes).toHaveSellInAndQuality(8, 29);
 			update_quality();
+			expect(passes).toHaveSellInAndQuality(7, 31);
 			update_quality();
+			expect(passes).toHaveSellInAndQuality(6, 33);
 			update_quality();
+			expect(passes).toHaveSellInAndQuality(5, 35);
 			update_quality();
 
 			expect(vest).toHaveSellInAndQuality(-1, 8);
